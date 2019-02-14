@@ -96,8 +96,13 @@ class CostoPromedioService {
                     costo = cp.costo
                     log.info("Costo anterior: {}", costo)
                 } else {
+
                     log.error("Error no se enctontro Costo promedio en el periodo anterior...")
-                    costo = null
+                    def existenciaAnt = Existencia.where{anio == anterior.ejercicio && mes == anterior.mes && producto == tr.producto && sucursal == trs.sucursal }.find()
+                    log.info("Costo en existencia {}",existenciaAnt.costoPromedio)
+                    if(existenciaAnt)
+                        costo = existenciaAnt.costoPromedio
+
                 }
 
             } else {
@@ -108,6 +113,7 @@ class CostoPromedioService {
                         if(iv) {
 
                             if(salida != tr.cantidad.abs()) {
+
                                 log.info('Actualizando costo por diferencia de cantidades Salida: {} Entrada: {}', salida, tr.cantidad)
                                 def factor = tr.producto.unidad == 'MIL' ? 1000 : 1
                                 def importeCosto = (salida / factor ) * costo
@@ -118,6 +124,7 @@ class CostoPromedioService {
                             log.info('Costo por asignar:{} anteriormente: {}', costo, iv.costo)
                             iv.costo = costo
                             iv.save failOnError: true, flush: true
+
                         } else {
                             log.info("TRS sin inventario {}", tr)
                         }
