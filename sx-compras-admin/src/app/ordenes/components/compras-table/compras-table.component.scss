@@ -1,4 +1,4 @@
-
+/*
 .mat-table {
   width: 100%;
   overflow: auto;
@@ -29,4 +29,30 @@
   //cursor: pointer;
   height: 30px;
 
+}
+*/
+
+table {
+  width: 100%;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.mat-column-proveedor {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mat-column-comentario {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mat-cell {
+  font-size: 11px;
+}
+.mat-row {
+  height: 28px;
 }

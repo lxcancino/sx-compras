@@ -10,7 +10,7 @@ import { AuthSession } from 'app/auth/models/authSession';
   selector: 'sx-footer',
   template: `
     <div layout="row" layout-align="start center">
-      <span class="md-caption">Copyright &copy; 2017 Luxsoft Mx. All rights reserved</span>
+      <span class="md-caption">Copyright &copy; 2018 - 2019 Luxsoft Mx. All rights reserved</span>
       <span flex></span>
       <ng-container *ngIf="session">
         <mat-icon color="accent">person</mat-icon>

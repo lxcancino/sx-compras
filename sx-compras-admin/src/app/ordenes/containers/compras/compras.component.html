@@ -1,4 +1,4 @@
-<mat-card flex>
+<!-- <mat-card flex>
   <div layout layout-align="start center" class="pad-left-sm pad-right-sm">
     <span class="push-left-sm">
       <span class="mat-title">Compras</span>
@@ -37,4 +37,27 @@
     </button>
   </div>
   <sx-compradet-table [partidas]="partidas" *ngIf="partidas.length > 0"></sx-compradet-table>
+</mat-card> -->
+<mat-card>
+  <sx-search-title title="Ordenes  " (search)="onSearch($event)">
+    <sx-periodo-picker class="options"></sx-periodo-picker>
+  </sx-search-title>
+  <mat-divider></mat-divider>
+  <div class="table-panel">
+    <sx-compras-table
+      [compras]="compras$ | async"
+      [filter]="search$ | async"
+      (edit)="onEdit($event)"
+      (select)="onSelect($event)"
+    ></sx-compras-table>
+  </div>
+  <a
+    mat-fab
+    matTooltip="Nueva compra"
+    color="accent"
+    class="mat-fab-position-bottom-right z-3"
+    [routerLink]="['create']"
+  >
+    <mat-icon>add</mat-icon>
+  </a>
 </mat-card>

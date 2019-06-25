@@ -19,7 +19,7 @@ export class LoginPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loading$ = this.store.select(fromStore.getAuthLoading);
+    this.loading$ = this.store.pipe(select(fromStore.getAuthLoading));
     this.error$ = this.store.pipe(select(fromStore.getAuthError));
 
     this.form = this.fb.group({

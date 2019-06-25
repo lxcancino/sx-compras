@@ -1,78 +1,119 @@
 <mat-card>
   <form [formGroup]="form">
-    <div layout layout-align="start center" class="mat-title pad-left pad-top" *ngIf="compra; else alta">
-
-      <span>Compra: {{compra.folio}} ({{compra.sucursalNombre}})</span>
-      <span class="pad-left pad-right">Estado: {{compra.status}}</span>
-      <span class="pad-left">({{compra.fecha | date: 'dd/MM/yyyy'}})</span>
+    <div
+      layout
+      layout-align="start center"
+      class="pad-left pad-top header"
+      *ngIf="compra; else alta"
+    >
+      <span>Compra: {{ compra.folio }} ({{ compra.sucursalNombre }})</span>
+      <span class="pad-left pad-right">Estado: {{ compra.status }}</span>
+      <span class="pad-left">({{ compra.fecha | date: 'dd/MM/yyyy' }})</span>
       <ng-container *ngIf="compra.ultimaDepuracion">
         <span class="pad-left pad-right">U. Depuración: </span>
-        <span class="pad-right tc-pink-600">{{compra.ultimaDepuracion | date: 'dd/MM/yyyy'}}</span>
+        <span class="pad-right tc-pink-600">{{
+          compra.ultimaDepuracion | date: 'dd/MM/yyyy'
+        }}</span>
       </ng-container>
       <span flex></span>
       <ng-container *ngIf="compra.cerrada">
         <span class="pad-left pad-right">Cerrada: </span>
-        <span class="pad-right tc-pink-600">{{compra.cerrada | date: 'dd/MM/yyyy'}}</span>
+        <span class="pad-right tc-pink-600">{{
+          compra.cerrada | date: 'dd/MM/yyyy'
+        }}</span>
       </ng-container>
-
-      <sx-compra-add-partida [parent]="form" [productos]="productos" (addPartida)="onInsertPartida($event)" *ngIf="!compra.cerrada"></sx-compra-add-partida>
+      <sx-compra-add-partida
+        [parent]="form"
+        [productos]="productos"
+        (addPartida)="onInsertPartida($event)"
+        *ngIf="!compra.cerrada"
+      ></sx-compra-add-partida>
     </div>
     <ng-template #alta>
       <span class="mat-title pad-left pad-top">Alta de orden de compra</span>
     </ng-template>
 
     <mat-divider></mat-divider>
-    <mat-card-content>
-
+    <div class="properties-panel">
       <div layout>
-        <sx-proveedor-field formControlName="proveedor" flex *ngIf="!compra?.id; else proveedorLabel"></sx-proveedor-field>
+        <sx-proveedor-field
+          formControlName="proveedor"
+          flex
+          *ngIf="!compra?.id; else proveedorLabel"
+        ></sx-proveedor-field>
         <ng-template #proveedorLabel>
           <mat-form-field flex>
-            <input matInput [value]="compra.nombre" [disabled]="true">
+            <input matInput [value]="compra.nombre" [disabled]="true" />
           </mat-form-field>
         </ng-template>
 
         <mat-form-field class="pad-left">
-          <input matInput [matDatepicker]="myDatepicker" formControlName="fecha" placeholder="Fecha">
-          <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+          <input
+            matInput
+            [matDatepicker]="myDatepicker"
+            formControlName="fecha"
+            placeholder="Fecha"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="myDatepicker"
+          ></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker></mat-datepicker>
         </mat-form-field>
         <sx-moneda-field [parent]="form" class="pad-left"></sx-moneda-field>
-        <sx-tipo-cambio-field [parent]="form" class="pad-left"></sx-tipo-cambio-field>
+        <sx-tipo-cambio-field
+          [parent]="form"
+          class="pad-left"
+        ></sx-tipo-cambio-field>
       </div>
 
       <div layout>
-        <sx-sucursal-field [parent]="form" class="pad-right"></sx-sucursal-field>
-        <sx-upper-case-field formControlName="comentario" placeholder="Comentario" flex></sx-upper-case-field>
-        <mat-checkbox formControlName="especial" flex="10">Especial</mat-checkbox>
+        <sx-sucursal-field
+          [parent]="form"
+          class="pad-right"
+        ></sx-sucursal-field>
+        <sx-upper-case-field
+          formControlName="comentario"
+          placeholder="Comentario"
+          flex
+        ></sx-upper-case-field>
+        <mat-checkbox formControlName="especial" flex="10"
+          >Especial</mat-checkbox
+        >
       </div>
+    </div>
 
-    </mat-card-content>
-    <mat-divider></mat-divider>
-
-    <div class="partidas-panel">
-      <sx-compra-partidas-table [parent]="form" [partidas]="partidas.value" (delete)="onDeletePartida($event)" (depurar)="onDepurar($event)"
-        (update)="onEditPartida($event)">
+    <div class="partidas-panel ">
+      <sx-compra-partidas-table
+        [parent]="form"
+        [partidas]="partidas.value"
+        (delete)="onDeletePartida($event)"
+        (depurar)="onDepurar($event)"
+        (update)="onEditPartida($event)"
+      >
       </sx-compra-partidas-table>
     </div>
+
     <mat-divider></mat-divider>
-    <mat-card-actions align="end">
+    <mat-card-actions>
       <button type="button" mat-button [routerLink]="['../']">
         <mat-icon>arrow_back</mat-icon> Compras
       </button>
-      <button type="button" mat-button color="primary" (click)="onSave()" *ngIf="compra?.status !== 'A'" [disabled]="form.invalid || form.pristine">
+      <button
+        type="button"
+        mat-button
+        color="primary"
+        (click)="onSave()"
+        *ngIf="compra?.status !== 'A'"
+        [disabled]="form.invalid || form.pristine"
+      >
         <mat-icon>save</mat-icon> Salvar
       </button>
-      <ng-container *ngIf="compra">
-
-      </ng-container>
+      <ng-container *ngIf="compra"> </ng-container>
       <ng-content></ng-content>
       <span flex></span>
       <span class="pad-left pad-right">Total</span>
-      <span class="pad-left pad-right">{{compra?.total | currency}}</span>
+      <span class="pad-left pad-right">{{ compra?.total | currency }}</span>
     </mat-card-actions>
-
-
-
   </form>
 </mat-card>

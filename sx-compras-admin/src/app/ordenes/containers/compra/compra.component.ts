@@ -17,19 +17,29 @@ import { CompraUiService } from './compra-ui.service';
 @Component({
   selector: 'sx-compra',
   template: `
-    <div>
-      <sx-compra-form [compra]="compra$ | async" [productos]="productos$ | async"
-        (save)="onSave($event)"
-        (delete)="onDelete($event)">
-        <ng-container *ngIf="compra$ | async as compra">
-          <sx-eliminar-compra [compra]="compra" (delete)="onDelete($event)"></sx-eliminar-compra>
-          <sx-email-compra [compra]="compra"></sx-email-compra>
-          <sx-cerrar-compra [compra]="compra" (cerrar)="onCerrar($event)"></sx-cerrar-compra>
-          <sx-depurar-compra [compra]="compra" (deuprar)="onDepurar($event)"></sx-depurar-compra>
-          <sx-compra-print [compra]="compra"></sx-compra-print>
-        </ng-container>
-      </sx-compra-form>
-    </div>
+    <sx-compra-form
+      [compra]="compra$ | async"
+      [productos]="productos$ | async"
+      (save)="onSave($event)"
+      (delete)="onDelete($event)"
+    >
+      <ng-container *ngIf="compra$ | async as compra">
+        <sx-eliminar-compra
+          [compra]="compra"
+          (delete)="onDelete($event)"
+        ></sx-eliminar-compra>
+        <sx-email-compra [compra]="compra"></sx-email-compra>
+        <sx-cerrar-compra
+          [compra]="compra"
+          (cerrar)="onCerrar($event)"
+        ></sx-cerrar-compra>
+        <sx-depurar-compra
+          [compra]="compra"
+          (deuprar)="onDepurar($event)"
+        ></sx-depurar-compra>
+        <sx-compra-print [compra]="compra"></sx-compra-print>
+      </ng-container>
+    </sx-compra-form>
   `,
   providers: [CompraUiService]
 })

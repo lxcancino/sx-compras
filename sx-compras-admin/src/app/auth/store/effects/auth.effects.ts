@@ -3,8 +3,15 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATION, RouterAction } from '@ngrx/router-store';
 
-import { map, tap, filter, switchMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import {
+  map,
+  tap,
+  filter,
+  switchMap,
+  catchError,
+  mergeMap
+} from 'rxjs/operators';
+import { of, Observable, defer } from 'rxjs';
 
 import { AuthActionTypes, AuthActions } from '../actions/auth.actions';
 import * as fromActions from '../actions/auth.actions';
@@ -27,12 +34,10 @@ export class AuthEffects {
     ofType<fromActions.Login>(AuthActionTypes.LOGIN),
     map(action => action.payload),
     switchMap(auth => {
-      return this.service
-        .login(auth)
-        .pipe(
-          map(userInfo => new fromActions.LoginSuccess(userInfo)),
-          catchError(error => of(new fromActions.LoginFail(error)))
-        );
+      return this.service.login(auth).pipe(
+        map(userInfo => new fromActions.LoginSuccess(userInfo)),
+        catchError(error => of(new fromActions.LoginFail(error)))
+      );
     })
   );
 
@@ -60,5 +65,25 @@ export class AuthEffects {
     ofType<fromActions.Logout>(AuthActionTypes.LOGOUT),
     tap(() => localStorage.removeItem('siipapx_session')),
     map(() => new fromRoot.Go({ path: ['/login'] }))
+  );
+
+  @Effect()
+  loadSession = this.actions$.pipe(
+    ofType<fromActions.LoadUserSession>(AuthActionTypes.LoadUserSession),
+    tap(() => console.log('Loading session information.....')),
+    mergeMap(() => {
+      return this.service.getSessionInfo().pipe(
+        map(
+          sessionInfo => new fromActions.LoadUserSessionSuccess({ sessionInfo })
+        ),
+        catchError(response => of(new fromRoot.GlobalHttpError({ response })))
+      );
+    })
+  );
+
+  @Effect({ dispatch: false })
+  init$: Observable<any> = defer(() => of(null)).pipe(
+    // tap(() => console.log('Cargando detalles de la session....'))
+    tap(() => console.log('Cargando detalles de la session....'))
   );
 }

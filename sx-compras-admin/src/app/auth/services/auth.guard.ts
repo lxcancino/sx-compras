@@ -7,7 +7,7 @@ import * as fromStore from '../store';
 import * as fromAuth from '../store/actions/auth.actions';
 
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -15,9 +15,10 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.store.pipe(
-      select(fromStore.getSession),
-      map(session => {
-        if (session == null) {
+      select(fromStore.isLoggedIn),
+      // tap(loggedIn => console.log('LoggedIn: ', loggedIn)),
+      map(loggedIn => {
+        if (!loggedIn) {
           this.store.dispatch(new fromRoot.Go({ path: ['/login'] }));
           return false;
         }

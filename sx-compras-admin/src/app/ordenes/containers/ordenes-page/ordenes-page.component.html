@@ -1,5 +1,9 @@
-<td-layout-nav-list #navList [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
-  [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '275px' : '100%'">
+<td-layout-nav-list
+  #navList
+  [opened]="media.registerQuery('gt-sm') | async"
+  [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
+  [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '250px' : '100%'"
+>
   <div td-sidenav-toolbar-content layout="row" layout-align="start center">
     <button mat-icon-button tdLayoutToggle>
       <mat-icon>menu</mat-icon>
@@ -14,23 +18,24 @@
     <span flex></span>
     <sx-logout-button></sx-logout-button>
   </div>
-  <mat-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')" dense>
+  <mat-nav-list
+    td-sidenav-content
+    [tdLayoutNavListClose]="!media.query('gt-sm')"
+    dense
+  >
     <ng-template let-item let-last="last" ngFor [ngForOf]="navmenu">
       <a mat-list-item [routerLink]="[item.route]" routerLinkActive="active">
-        <mat-icon matListAvatar>{{item.icon}}</mat-icon>
-        <h3 matLine> {{item.title}} </h3>
-        <p matLine> {{item.description}} </p>
+        <mat-icon matListAvatar>{{ item.icon }}</mat-icon>
+        <h3 matLine>{{ item.title }}</h3>
+        <p matLine>{{ item.description }}</p>
       </a>
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </ng-template>
     <h3 matSubheader>Reportes</h3>
-
   </mat-nav-list>
 
-  <div tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
-    <router-outlet></router-outlet>
-  </div>
-
+  <div tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']"></div>
+  <router-outlet></router-outlet>
 
   <td-layout-footer>
     <sx-footer></sx-footer>

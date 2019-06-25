@@ -25,6 +25,8 @@ import { CompraDet } from '../../models/compraDet';
   styleUrls: ['./compras.component.scss']
 })
 export class ComprasComponent implements OnInit, OnDestroy {
+  compras$: Observable<Compra[]>;
+
   comprasPorSucursal$: Observable<any>;
   sucursales$: Observable<string[]>;
 
@@ -39,6 +41,8 @@ export class ComprasComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromStore.State>) {}
 
   ngOnInit() {
+    this.compras$ = this.store.pipe(select(fromStore.getAllCompras));
+
     this.comprasPorSucursal$ = this.store.pipe(
       select(fromStore.getComprasPorSucursalPendientes)
     );
@@ -68,8 +72,6 @@ export class ComprasComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSelect() {}
-
   onSearch(term: string) {
     this.store.dispatch(new fromActions.SetComprasSearchTerm({ term }));
   }
@@ -82,29 +84,13 @@ export class ComprasComponent implements OnInit, OnDestroy {
     return _.keys(object);
   }
 
+  onSelect(event: Compra) {
+    this.onEdit(event);
+  }
+
   onEdit(event: Compra) {
     this.store.dispatch(
       new fromRoot.Go({ path: ['ordenes/compras', event.id] })
     );
   }
 }
-/*
-template: `
-    <mat-card>
-      <sx-search-title title="Compras" (search)="onSearch($event)">
-      </sx-search-title>
-      <mat-divider></mat-divider>
-      <ng-container *ngIf="comprasPorSucursal$ | async as rows">
-        <mat-tab-group [(selectedIndex)]="tabIndex">
-          <mat-tab label="{{sucursal}}" *ngFor="let sucursal of getSucursales(rows)">
-            <sx-compras-table [compras]="rows[sucursal]" [filter]="search$ | async" (edit)="onEdit($event)"></sx-compras-table>
-          </mat-tab>
-        </mat-tab-group>
-      </ng-container>
-    </mat-card>
-    <a mat-fab matTooltip="Nueva compra" matTooltipPosition="before" color="accent" class="mat-fab-position-bottom-right z-3"
-      [routerLink]="['create']">
-	    <mat-icon>add</mat-icon>
-    </a>
-  `
-  */

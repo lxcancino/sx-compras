@@ -1,29 +1,49 @@
 <td-layout-nav navigationRoute="/" color="primary">
-
   <div td-toolbar-content layout="row" layout-align="start center" flex>
-    <span class="cursor-pointer">SX_COMPRAS</span>
+    <span class="cursor-pointer">SX Cuentas Por Cobrar</span>
     <span flex></span>
   </div>
 
-  <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']" layout-align="center">
+  <div
+    layout-gt-sm="row"
+    tdMediaToggle="gt-xs"
+    [mediaClasses]="['push-sm']"
+    layout-align="center"
+  >
     <form flex-gt-sm="30" (ngSubmit)="login()" [formGroup]="form">
-      <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
+      <ng-template
+        tdLoading
+        [tdLoadingUntil]="!(loading$ | async)"
+        tdLoadingStrategy="overlay"
+      >
         <mat-card>
           <mat-card-title>Acceso al sistema</mat-card-title>
           <mat-divider></mat-divider>
           <mat-card-content>
             <div layout="column">
               <mat-form-field>
-                <input matInput placeholder="Usuario" autocomplete="off" formControlName="username">
+                <input
+                  matInput
+                  placeholder="Usuario"
+                  autocomplete="off"
+                  formControlName="username"
+                />
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="Passwor" autocomplete="off" type="password" formControlName="password">
+                <input
+                  matInput
+                  placeholder="Passwor"
+                  autocomplete="off"
+                  type="password"
+                  formControlName="password"
+                />
               </mat-form-field>
             </div>
           </mat-card-content>
           <mat-card-actions align="end">
             <button mat-raised-button color="primary" [disabled]="form.invalid">
-              <mat-icon>power_settings_new</mat-icon> Accesar</button>
+              <mat-icon>power_settings_new</mat-icon> Accesar
+            </button>
           </mat-card-actions>
         </mat-card>
       </ng-template>
@@ -50,5 +70,4 @@
   <td-layout-footer>
     <sx-footer></sx-footer>
   </td-layout-footer>
-
 </td-layout-nav>

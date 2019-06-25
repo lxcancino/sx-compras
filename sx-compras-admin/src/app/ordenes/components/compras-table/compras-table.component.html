@@ -1,66 +1,79 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
   <ng-container matColumnDef="sucursalNombre">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Sucursal</th>
-    <td mat-cell *matCellDef="let compra">{{compra.sucursalNombre}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.sucursalNombre }}</td>
   </ng-container>
 
   <ng-container matColumnDef="proveedor">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
-    <td mat-cell *matCellDef="let compra">{{compra.nombre}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.nombre }}</td>
   </ng-container>
   <ng-container matColumnDef="folio">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
-    <td mat-cell *matCellDef="let compra">{{compra.folio}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.folio }}</td>
   </ng-container>
   <ng-container matColumnDef="fecha">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
-    <td mat-cell *matCellDef="let compra">{{compra.fecha | date: 'dd/MM/yyyy'}}</td>
+    <td mat-cell *matCellDef="let compra">
+      {{ compra.fecha | date: 'dd/MM/yyyy' }}
+    </td>
   </ng-container>
   <ng-container matColumnDef="moneda">
     <th mat-header-cell *matHeaderCellDef>M</th>
-    <td mat-cell *matCellDef="let compra">{{compra.moneda}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.moneda }}</td>
   </ng-container>
   <ng-container matColumnDef="tipoDeCambio">
     <th mat-header-cell *matHeaderCellDef>TC</th>
-    <td mat-cell *matCellDef="let compra">{{compra.tipoDeCambio}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.tipoDeCambio }}</td>
   </ng-container>
   <ng-container matColumnDef="total">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
-    <td mat-cell *matCellDef="let compra">{{compra.total | currency:'USD'}}</td>
+    <td mat-cell *matCellDef="let compra">
+      {{ compra.total | currency }}
+    </td>
   </ng-container>
   <ng-container matColumnDef="comentario">
     <th mat-header-cell *matHeaderCellDef>Comentario</th>
-    <td mat-cell *matCellDef="let compra">{{compra.comentario}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.comentario }}</td>
   </ng-container>
 
   <ng-container matColumnDef="createdBy">
     <th mat-header-cell *matHeaderCellDef>Creada</th>
-    <td mat-cell *matCellDef="let compra">{{compra.createdBy}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.createdBy }}</td>
   </ng-container>
 
   <ng-container matColumnDef="lastUpdatedBy">
     <th mat-header-cell *matHeaderCellDef>Usuario</th>
-    <td mat-cell *matCellDef="let compra">{{compra.lastUpdatedBy}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.lastUpdatedBy }}</td>
   </ng-container>
 
   <ng-container matColumnDef="modificada">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>U. Modificación</th>
-    <td mat-cell *matCellDef="let compra">{{compra.modificada | date: 'dd/MM/yyyy: HH:mm'}}</td>
+    <td mat-cell *matCellDef="let compra">
+      {{ compra.modificada | date: 'dd/MM/yyyy: HH:mm' }}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="pendiente">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>E</th>
-    <td mat-cell *matCellDef="let compra">{{compra.status}}</td>
+    <td mat-cell *matCellDef="let compra">{{ compra.status }}</td>
   </ng-container>
 
   <ng-container matColumnDef="cerrada">
     <th mat-header-cell *matHeaderCellDef>Cerrada</th>
-    <td mat-cell *matCellDef="let compra">{{compra.cerrada | date: 'dd/MM/yyyy'}}</td>
+    <td mat-cell *matCellDef="let compra">
+      <mat-icon
+        *ngIf="compra.cerrada"
+        matToolTip="compra.cerrada | date: 'dd/MM/yyyy'"
+        >check</mat-icon
+      >
+    </td>
   </ng-container>
   <ng-container matColumnDef="ultimaDepuracion">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>U. Dep</th>
-    <td mat-cell *matCellDef="let compra">{{compra.ultimaDepuracion | date: 'dd/MM/yyyy'}}</td>
+    <td mat-cell *matCellDef="let compra">
+      {{ compra.ultimaDepuracion | date: 'dd/MM/yyyy' }}
+    </td>
   </ng-container>
   <ng-container matColumnDef="operaciones">
     <th mat-header-cell *matHeaderCellDef></th>
@@ -70,9 +83,16 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayColumns "></tr>
-  <tr mat-row *matRowDef="let compra; columns: displayColumns " class="cursor-pointer " (click)="toogleSelect(compra)
-        "
-    [ngClass]="{ 'active': compra.selected} "></tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let compra; columns: displayColumns"
+    class="cursor-pointer "
+    (click)="select.emit(compra)"
+  ></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[20, 50, 100, 200] " showFirstLastButtons></mat-paginator>
+
+<mat-paginator
+  [pageSizeOptions]="[20, 50, 100, 200]"
+  showFirstLastButtons
+></mat-paginator>
